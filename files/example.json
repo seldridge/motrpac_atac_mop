@@ -1,0 +1,49 @@
+{
+    "atac.title" : "20180725_Gastroc_powder",
+    "atac.description" : "ATAC-seq on motrpac",
+    "atac.pipeline_type" : "atac",
+    "atac.genome_tsv" : "/path/to/reference/rn6/rn6.tsv",
+
+    "atac.paired_end" : true,
+    "atac.multimapping" : 4,
+
+    "atac.trim_adapter.auto_detect_adapter" : true,
+    "atac.trim_adapter.cpu" : 1,
+
+    "atac.bowtie2.cpu" : 2,
+    "atac.bowtie2.mem_mb" : 16000,
+
+    "atac.filter.cpu" : 1,
+    "atac.filter.mem_mb" : 12000,
+
+    "atac.macs2_mem_mb" : 16000,
+
+    "atac.enable_idr" : true,
+    "atac.fastqs_rep1_R1" : [
+        "/path/to/FASTQ/20180725_2_Gastroc_002_powder_S1_L001_R1_001.fastq.gz",
+        "/path/to/FASTQ/20180725_2_Gastroc_002_powder_S1_L002_R1_001.fastq.gz",
+        "/path/to/FASTQ/20180725_2_Gastroc_002_powder_S1_L003_R1_001.fastq.gz",
+        "/path/to/FASTQ/20180725_2_Gastroc_002_powder_S1_L004_R1_001.fastq.gz"
+    ],
+
+    "atac.fastqs_rep1_R2" : [
+        "/path/to/FASTQ/20180725_2_Gastroc_002_powder_S1_L001_R2_001.fastq.gz",
+        "/path/to/FASTQ/20180725_2_Gastroc_002_powder_S1_L002_R2_001.fastq.gz",
+        "/path/to/FASTQ/20180725_2_Gastroc_002_powder_S1_L003_R2_001.fastq.gz",
+        "/path/to/FASTQ/20180725_2_Gastroc_002_powder_S1_L004_R2_001.fastq.gz"
+    ],
+
+    "atac.fastqs_rep2_R1" : [
+        "/path/to/FASTQ/20180725_3_Gastroc_003_powder_S2_L001_R1_001.fastq.gz",
+        "/path/to/FASTQ/20180725_3_Gastroc_003_powder_S2_L002_R1_001.fastq.gz",
+        "/path/to/FASTQ/20180725_3_Gastroc_003_powder_S2_L003_R1_001.fastq.gz",
+        "/path/to/FASTQ/20180725_3_Gastroc_003_powder_S2_L004_R1_001.fastq.gz"
+    ],
+
+    "atac.fastqs_rep2_R2" : [
+        "/path/to/FASTQ/20180725_3_Gastroc_003_powder_S2_L001_R2_001.fastq.gz",
+        "/path/to/FASTQ/20180725_3_Gastroc_003_powder_S2_L002_R2_001.fastq.gz",
+        "/path/to/FASTQ/20180725_3_Gastroc_003_powder_S2_L003_R2_001.fastq.gz",
+        "/path/to/FASTQ/20180725_3_Gastroc_003_powder_S2_L004_R2_001.fastq.gz"
+    ]
+}

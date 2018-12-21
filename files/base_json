@@ -1,0 +1,17 @@
+
+    "atac.paired_end" : true,
+    "atac.multimapping" : 4,
+
+    "atac.trim_adapter.auto_detect_adapter" : true,
+    
+    "atac.trim_adapter.cpu" : 4,
+    "atac.bowtie2_cpu" : 4,
+    "atac.filter.cpu" : 4,
+    "atac.bam2ta_cpu" : 4,
+    "atac.xcor_cpu" : 4,
+
+    "atac.bowtie2.mem_mb" : 16000,
+    "atac.filter.mem_mb" : 16000,
+    "atac.macs2_mem_mb" : 16000,
+
+    "atac.enable_idr" : true,
