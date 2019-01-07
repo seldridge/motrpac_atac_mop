@@ -28,7 +28,7 @@ for i in $indiv; do
         continue
     fi
 
-	# name JSON file from FASTQ sample name 
+    # name JSON file from FASTQ sample name 
     json_file=${json_dir}/${i}.json
 
     echo "{" > ${json_file}
