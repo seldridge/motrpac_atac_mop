@@ -168,29 +168,29 @@ See https://www.encodeproject.org/data-standards/terms/ for an explanation of so
 
 ### 7. ENCODE data quality standards (https://www.encodeproject.org/atac-seq/#standards) 
 
-Metric                                       | Range        | Quality
--------------------------------------------- | ------------ | -----------
-Number of non-dup, non-MT aligned reads (PE) | > 50M        | Recommended
--------------------------------------------- | ------------ | -----------
-% mapped reads								               | > 95%		    | Ideal
-.                                            | > 80%		    | Acceptable 
--------------------------------------------- | ------------ | -----------
-NRF											                     | > 0.9        | Recommended
--------------------------------------------- | ------------ | -----------
-PBC1										                     | > 0.9        | Recommended
--------------------------------------------- | ------------ | -----------
-PBC2										                     | > 3			    | Recommended
--------------------------------------------- | ------------ | -----------
-Number of `reproducibitily_overlap` peaks	   | > 150k		    | Ideal
-.											                       | > 100k 		  | Acceptable
--------------------------------------------- | ------------ | -----------
-Number of `reproducibililty_idr` peaks		   | > 70k		    | Ideal
-.											                       | > 50k		    | Acceptable
--------------------------------------------- | ------------ | -----------
-FRiP (fraction of reads in peaks)			       | > 0.3		    | Ideal
-. 											                     | > 0.2		    | Acceptable
--------------------------------------------- | ------------ | -----------
-TSS enrichment (GRCh38)						           | > 7			    | Ideal 
-. 											                     | 5-7			    | Acceptable
-.											                       | < 5			    | Concerning
+Metric                                           | Range        | Quality
+-------------------------------------------------|--------------|-----------
+Number of non-dup, non-MT aligned reads (PE)     | > 50M        | Recommended
+-------------------------------------------------|--------------|-----------
+% mapped reads								                   | > 95%		    | Ideal
+                                                 | > 80%		    | Acceptable 
+-------------------------------------------------|--------------|-----------
+NRF											                         | > 0.9        | Recommended
+-------------------------------------------------|--------------|-----------
+PBC1										                         | > 0.9        | Recommended
+-------------------------------------------------|--------------|-----------
+PBC2										                         | > 3			    | Recommended
+-------------------------------------------------|--------------|-----------
+Number of `reproducibitily_overlap` peaks	       | > 150k		    | Ideal
+											                           | > 100k 		  | Acceptable
+-------------------------------------------------|--------------|-----------
+Number of `reproducibililty_idr` peaks		       | > 70k		    | Ideal
+											                           | > 50k		    | Acceptable
+-------------------------------------------------|--------------|-----------
+FRiP (fraction of reads in peaks)			           | > 0.3		    | Ideal
+ 								   			                         | > 0.2		    | Acceptable
+-------------------------------------------------|--------------|-----------
+TSS enrichment (GRCh38)						               | > 7			    | Ideal 
+ 					  						                         | 5-7			    | Acceptable
+											                           | < 5			    | Concerning
 
