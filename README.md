@@ -58,11 +58,11 @@ Follow the instructions for **How to build genome database for your own genome**
 
 In Step 4, add a couple of extra things:
 
-- `REF_FA` points to a genome sequence file. Use the UCSC soft-masked RGSC 6.0/rn6 assembly of the rat genome. Note that Ensembl rat FASTA file formats, specifically how chromosomes are named, are currently incompatible with the ATAC pipeline (*updated 4 Nov 2018*).  
-- `BLACKLIST` points to a BED file of regions to be masked from the rat genome. The URL below provides a dummy blacklist file that does not actually mask any regions in the rat genome. This may be changed in the future.  
-- `TSS_ENRICH` points to a BED file of transcripition start site (TSS) annotations. The URL below includes rat TSS annotations curated from BioMart.  
+- `REF_FA` points to a genome sequence file. Use the Ensembl hard-masked assembly of the rat genome.  
+- `BLACKLIST` points to a BED file of regions to be masked from the rat genome. The URL in the code below provides a dummy blacklist file that does not actually mask any regions in the rat genome. This may be changed in the future.  
+- `TSS_ENRICH` points to a BED file of transcripition start site (TSS) annotations. The URL in the code below includes rat TSS annotations curated from BioMart.  
 
-Note that the pipeline (at least the local version with Conda) requires that these inputs be provided as URLs. Inputting a path to a file in a local directory will not work. The rat blacklist and TSS annotation files can be moved to a more permanent location in the future.  
+Note that the pipeline (at least the local version with Conda) requires that these inputs are provided as URLs. Inputting a path to a file in a local directory will not work. The rat blacklist and TSS annotation files can be moved to a more permanent location in the future.  
 
 So find these lines in `${PATH_TO_PIPELINE}/conda/install_genome_data.sh`:
 
@@ -80,8 +80,8 @@ and replace them with these:
 ```bash
   ...
 
-  elif [[ $GENOME == "rn6" ]]; then
-    REF_FA="http://hgdownload.cse.ucsc.edu/goldenPath/rn6/bigZips/rn6.fa.gz"
+  elif [[ $GENOME == "rn6_masked" ]]; then
+    REF_FA="ftp://ftp.ensembl.org/pub/release-94/fasta/rattus_norvegicus/dna/Rattus_norvegicus.Rnor_6.0.dna_rm.toplevel.fa.gz"
     BLACKLIST="http://web.stanford.edu/~nicolerg/blacklist.bed.gz"
     TSS_ENRICH="http://web.stanford.edu/~nicolerg/tss.rn6.bed.gz"
 
@@ -94,28 +94,27 @@ A JSON file specifying input parameters is required for each sample. Find docume
 
 The `files` directory of this repository includes a couple of files to help: 
 
-- `base_json`: Global parameters used for all samples and included in the generation of each JSON file through `make_json.sh`  
-- `make_json.sh`: Example code to generate JSON files for samples with 2 replicates. See script for usage details.  
-- `example.json`: Example of a JSON file for a sample with two replicates  
+- `make_json.sh`: Example code to generate JSON files for samples with a single biological replicate. See script for usage details.
+- `example.json`: Example of a JSON file for a sample with a single biological replicate.
 
 Note that the `genome_ref` variable in `make_json.sh` (which is the path to the `.tsv` file generated in Step 3) must correspond to the correct species (i.e. human or rat). 
 
 ### 5. Run pipeline
 
-Actually asking the pipeline to run is easy:  
+Actually running the pipeline to run is easy:  
 
 ```bash 
 source activate encode-atac-seq-pipeline # IMPORTANT!
-INPUT=files/example.json
+INPUT=/path/to/json
 SRCDIR=/path/to/atac-seq-pipeline
 java -jar -Dconfig.file=${SRCDIR}/backends/backend.conf ${SRCDIR}/cromwell-34.jar run ${SRCDIR}/atac.wdl -i ${INPUT}
 ```
 
-It takes the better part of a day for the pipeline to finish running for one sample (at least with the limited resources allocated by the parameters documented in the `files` directory). Note that a `cromwell-executions` directory containing all of the pipeline outputs is created in whatever directory from which you run the above command, so choose wisely. One arbitrarily-named subdirectory for each JSON file will be written in `cromwell-executions/atac`.  
+A `cromwell-executions` directory containing all of the pipeline outputs is created in whatever directory from which you run the above command, so choose wisely. One arbitrarily-named subdirectory for each JSON file will be written in `cromwell-executions/atac`.  
 
 ### 6. Collect important QC metrics  
 
-The structure of the pipeline output is a bit complex. Most of the important metrics are in a JSON report in the `call-qc_report` subdirectory of each run. The are also plots of TSS enrichment in `call-ataqc` subdirectories. The `extract-atac-rep-outputs.sh` script in `files` pulls out these files as well as HTML QC reports, filtered BAM files, and optimal reproducibility_overlap peak files from all runs of pipeline and compiles them in a single folder. It also collapses all JSON reports into a single tab-delimited file called `merged.qc.txt` with section headers indicated by `##########`. Note that, as written, the collapsed JSON file will not make sense if different samples have different numbers of replicates.  
+The structure of the pipeline output is a bit complex. Most of the important metrics are in a JSON report in the `call-qc_report` subdirectory of each run. The are also plots of TSS enrichment in `call-ataqc` subdirectories. The `extract-atac-outputs.sh` script in `files` pulls out these files as well as HTML QC reports, filtered BAM files, and peak files from all runs of pipeline and compiles them in a single folder. It also collapses all JSON reports into a single tab-delimited file called `merged.qc.txt` with section headers indicated by `##########`. Note that, as written, the collapsed JSON file will not make sense if different samples have different numbers of replicates.  
 
 **The following metadata and QC metrics should be compiled and reported for every sample:**
 
@@ -138,7 +137,6 @@ Values from JSON report:
 - flagstat_qc: paired
 - flagstat_qc: paired_properly
 - flagstat_qc: paired_properly_pct
-- nodup_flagstat_qc: total
 - dup_qc: paired_reads
 - dup_qc: paired_dupes
 - dup_qc: dupes_pct
@@ -147,19 +145,24 @@ Values from JSON report:
 - pbc_qc: NRF
 - pbc_qc: PBC1
 - pbc_qc: PBC2
-- FRiP_macs2_qc: all FRiP values
+- nodup_flagstat_qc: total
 - overlap_reproducibility_qc: N_opt
 - idr_reproducibility: N_opt
+- frip_macs2_qc: all FRiP values
 - overlap_frip_qc: FRiP values
 - idr_frip_qc: FRiP values 
-
-Other values that should be output by ATAQC module of pipeline (troubleshooting in progress):
-
-- mitochondrial reads
-- final reads (after all filters) - both number and percent
-- presence of NFR peak
-- TSS enrichment 
-- FRiP in enhancer, promoter, DHS regions (at least for human)  
+- ataqc: Read count from sequencer
+- ataqc: Read count successfully aligned
+- ataqc: Read count after filtering for mapping quality
+- ataqc: Read count after removing duplicate reads
+- ataqc: Read count after removing mitochondrial reads (final read count)
+- ataqc: picard est library size
+- ataqc: Fraction of reads in NFR
+- ataqc: NFR/(mono-nuc reads)
+- ataqc: Raw peaks
+- ataqc: Naive overlap peaks
+- ataqc: IDR peaks
+- ataqc: TSS enrichment
 
 See https://www.encodeproject.org/data-standards/terms/ for an explanation of some of these terms.
 
