@@ -24,29 +24,13 @@ Note that the ENCODE ATAC-seq pipeline has separate instructions for multiple pl
 
 ### 1. Before you do anything else...
 
-Good-quality ATAC analysis requires high-output sequencing data. ENCODE stipulates that a sample should have 25M non-duplicated, filtered, non-mitochondial fragments for downstream analysis. That corresponds to 50M reads for paired-end sequencing and 25M reads for single-end sequencing AFTER a number of filtering steps. Therefore, your raw paired-end FASTQ files should have appreciably more than 50M reads per sample. Run the following code to get read counts per sample, assuming you have compressed (`.gz`) FASTQ files following the naming convention `${SAMPLE}_L00#_R#_001.fastq.gz`:
-
-```bash
-INDIR=/path/to/raw/fastq/files
-
-for prefix in `ls $INDIR | grep "L001_R1_001.fastq.gz" | sed "s/_L001_R1_001.fastq.gz//"`; do
-	total=0
-	for fastq in `ls $indir | grep "$prefix"`; do 
-		count1=`zcat $indir/$fastq | wc -l`
-		count2=$((total + count1))
-		total=$count2
-	done
-	y=4
-	count=$((total / y))
-	echo $prefix	$count
-done
-```
-
-Raw read counts should be included in metadata/QC metric reports for all samples.  
+Good-quality ATAC analysis requires high-output sequencing data. ENCODE stipulates that a sample should have 25M non-duplicated, filtered, non-mitochondial fragments for downstream analysis. That corresponds to 50M reads for paired-end sequencing and 25M reads for single-end sequencing AFTER a number of filtering steps. Therefore, your raw paired-end FASTQ files should have appreciably more than 50M reads per sample. Raw read counts should be included in metadata/QC metric reports for all samples.  
 
 ### 2. Install and test ENCODE ATAC-seq pipeline and dependencies
 
-Follow Steps 1-8 found here: https://github.com/ENCODE-DCC/atac-seq-pipeline/blob/master/docs/tutorial_local_conda.md  
+To install a local version with Conda, follow Steps 1-8 found here: https://github.com/ENCODE-DCC/atac-seq-pipeline/blob/master/docs/tutorial_local_conda.md   
+
+Otherwise, see https://github.com/ENCODE-DCC/atac-seq-pipeline for other installation/run options.  
 
 ### 3. Build a genome database
 
@@ -151,7 +135,7 @@ Values from JSON report (the easiest thing to do would be to submit the whole re
 - frip_macs2_qc: all FRiP values
 - overlap_frip_qc: FRiP values
 - idr_frip_qc: FRiP values 
-- ataqc: Read count from sequencer
+- ataqc: Read count from sequencer (Note that this number is higher than my counts from raw FASTQ files and probably includes multimapped reads. This needs to be checked.)
 - ataqc: Read count successfully aligned
 - ataqc: Read count after filtering for mapping quality
 - ataqc: Read count after removing duplicate reads
