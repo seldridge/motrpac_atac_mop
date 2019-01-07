@@ -64,11 +64,11 @@ for i in $indiv; do
     echo "    \"atac.enable_idr\" : true," >> ${json_file}
     echo >> ${json_file}
 
-	# one of the two following blocks must be commented out =================
+    # one of the two following blocks must be commented out =================
 
-	# =============================================================
+    # =============================================================
 
-	# 4 FASTQ files (4 lanes) per sample 
+    # 4 FASTQ files (4 lanes) per sample 
 
     echo "    \"atac.fastqs_rep1_R1\" : [" >> ${json_file}
     counter=1
