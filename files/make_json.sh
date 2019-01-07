@@ -70,46 +70,46 @@ for i in $indiv; do
 
 	# 4 FASTQ files (4 lanes) per sample 
 
-	echo "    \"atac.fastqs_rep1_R1\" : [" >> ${json_file}
-	counter=1
-	for j in $(ls ${fastq_dir}/${i}_*L00*${SUF_R1})
-	do
-		if [ "$counter" = 4 ]; then
-			echo "        \"${j}\"" >> ${json_file}
-		else
-			echo "        \"${j}\"," >> ${json_file}
-		fi
-		counter=$((counter +1))
-	done
-	echo "    ]," >> ${json_file}
-	echo >> ${json_file}
+    echo "    \"atac.fastqs_rep1_R1\" : [" >> ${json_file}
+    counter=1
+    for j in $(ls ${fastq_dir}/${i}_*L00*${SUF_R1})
+    do
+        if [ "$counter" = 4 ]; then
+            echo "        \"${j}\"" >> ${json_file}
+        else
+            echo "        \"${j}\"," >> ${json_file}
+        fi
+        counter=$((counter +1))
+    done
+    echo "    ]," >> ${json_file}
+    echo >> ${json_file}
 
 	
-	echo "    \"atac.fastqs_rep1_R2\" : [" >> ${json_file}
-	counter=1
-	for k in $(ls ${fastq_dir}/${i}_*L00*${SUF_R2}); do
-		if [ "$counter" = 4 ]; then
-			echo "        \"${k}\"" >> ${json_file}
-		else
-			echo "        \"${k}\"," >> ${json_file}
-		fi
-		counter=$((counter +1))
-	done
-	echo "    ]" >> ${json_file}
+    echo "    \"atac.fastqs_rep1_R2\" : [" >> ${json_file}
+    counter=1
+    for k in $(ls ${fastq_dir}/${i}_*L00*${SUF_R2}); do
+        if [ "$counter" = 4 ]; then
+            echo "        \"${k}\"" >> ${json_file}
+        else
+            echo "        \"${k}\"," >> ${json_file}
+        fi
+        counter=$((counter +1))
+    done
+    echo "    ]" >> ${json_file}
 
-	# =============================================================
+    # =============================================================
 
-	# # 1 FASTQ file per sample (no lane splitting) 
+    # # 1 FASTQ file per sample (no lane splitting) 
 
-	# fastq_r1=`ls ${fastq_dir}/${i}_*${SUF_R1}`
-	# fastq_r2=`ls ${fastq_dir}/${i}_*${SUF_R2}`
-	# echo "    \"atac.fastqs_rep1_R1\" : \"${fastq_r1}\"," >> ${json_file}
-	# echo "    \"atac.fastqs_rep1_R2\" : \"${fastq_r2}\"" >> ${json_file}
+    # fastq_r1=`ls ${fastq_dir}/${i}_*${SUF_R1}`
+    # fastq_r2=`ls ${fastq_dir}/${i}_*${SUF_R2}`
+    # echo "    \"atac.fastqs_rep1_R1\" : \"${fastq_r1}\"," >> ${json_file}
+    # echo "    \"atac.fastqs_rep1_R2\" : \"${fastq_r2}\"" >> ${json_file}
 
-	# =============================================================
-
-	# =======================================================================
-
-	echo "}" >> ${json_file}
+    # =============================================================
+   
+    # =======================================================================
+    
+    echo "}" >> ${json_file}
 
 done
