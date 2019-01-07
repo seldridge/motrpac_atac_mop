@@ -116,7 +116,7 @@ A `cromwell-executions` directory containing all of the pipeline outputs is crea
 
 The structure of the pipeline output is a bit complex. Most of the important metrics are in a JSON report in the `call-qc_report` subdirectory of each run. The are also plots of TSS enrichment in `call-ataqc` subdirectories. The `extract-atac-outputs.sh` script in `files` pulls out these files as well as HTML QC reports, filtered BAM files, and peak files from all runs of pipeline and compiles them in a single folder. It also collapses all JSON reports into a single tab-delimited file called `merged.qc.txt` with section headers indicated by `##########`. Note that, as written, the collapsed JSON file will not make sense if different samples have different numbers of replicates.  
 
-**The following metadata and QC metrics should be compiled and reported for every sample:**
+**At a minimum, the following metadata and QC metrics should be compiled and reported for every sample:**
 
 - sample name 
 - FASTQ prefix
@@ -129,7 +129,7 @@ The structure of the pipeline output is a bit complex. Most of the important met
 - TSS enrichment plots (from pipeline)
 - insert size distribution plot (from pipeline)
 
-Values from JSON report:  
+Values from JSON report (the easiest thing to do would be to submit the whole report for each sample):  
 
 - flagstat_qc: total
 - falgstat_qc: mapped
