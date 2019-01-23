@@ -78,7 +78,6 @@ for i in $indiv; do
     done
     echo "    ]," >> ${json_file}
     echo >> ${json_file}
-
     
     echo "    \"atac.fastqs_rep1_R2\" : [" >> ${json_file}
     counter=1
