@@ -38,12 +38,12 @@ for json in `ls $outdir | grep "json"`; do
 	sed "s/\": /	/g" $outdir/$json | sed "s/^[ \t]*//" | sed "s/\"//g" | sed "s/,//g" | sed "s/[{}]//g" | sed "s/\[//g" | sed "s/\]//g" | sed '/^\s*$/d' | sed "s/ /_/g" | sed "s/\s/@/g" > $outdir/tmp
 
 	if [ "$first" == "1" ]; then
-		cut -f1 -d'@' $outdir/tmp > $outdir/merged.qc.txt
+		cut -f1 -d'@' $outdir/tmp > $outdir/merged.tmp.txt
 		first=0
 	fi
 	cut -f2 -d'@' $outdir/tmp > $outdir/tmp.info
-	paste $outdir/merged.qc.txt $outdir/tmp.info > $outdir/tmp.merged
-	rm $outdir/merged.qc.txt
+	paste $outdir/merged.tmp.txt $outdir/tmp.info > $outdir/tmp.merged
+	rm $outdir/merged.tmp.txt
 	mv $outdir/tmp.merged $outdir/merged.tmp.txt
 done
 rm tmp*
