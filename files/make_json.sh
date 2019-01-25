@@ -41,7 +41,7 @@ for i in $indiv; do
     echo >> ${json_file}
 
     echo "    \"atac.paired_end\" : true," >> ${json_file}
-    echo "    \"atac.multimapping\" : 4," >> ${json_file}
+    echo "    \"atac.multimapping\" : 0," >> ${json_file}
     echo >> ${json_file}
 
     echo "    \"atac.auto_detect_adapter\" : true," >> ${json_file} 

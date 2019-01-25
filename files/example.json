@@ -6,7 +6,7 @@
     "atac.keep_irregular_chr_in_bfilt_peak" : true,
 
     "atac.paired_end" : true,
-    "atac.multimapping" : 4,
+    "atac.multimapping" : 0,
 
     "atac.auto_detect_adapter" : true,
 
