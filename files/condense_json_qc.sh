@@ -34,8 +34,7 @@ for json in `ls $outdir | grep "json"`; do
 done
 
 rm $outdir/tmp*
-sed -e '2d' $outdir/merged.tmp.txt > $outdir/merged.qc.txt
-rm $outdir/merged.tmp.txt
+sed -i -e '2d' $outdir/merged.tmp.txt
 rm *qc.json 
 
 # indicate headers in condensed report 
@@ -49,5 +48,8 @@ for header in flagstat_qc \
 	overlap_frip_qc \
 	idr_frip_qc \
 	ataqc;do
-		sed -i "s/^$header.*/$header -------------------------------------------------------------------/" $outdir/merged.qc.txt
+		sed -i "s/^$header.*/$header -------------------------------------------------------------------/" $outdir/merged.tmp.txt
 done
+
+python2 cleanup.py $outdir/merged.tmp.txt $outdir/merged.qc.txt
+rm $outdir/merged.tmp.txt
