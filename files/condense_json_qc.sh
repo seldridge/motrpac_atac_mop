@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # merge qc.json files (single replicate)
-base=/mnt/lab_data/montgomery/nicolerg/motrpac/atac/pipeline-output/unmasked/RUN8/cromwell-executions/atac
-outdir=/mnt/lab_data/montgomery/nicolerg/motrpac/atac/pipeline-output/unmasked/RUN8/main
+base=/path/to/cromwell-executions/atac
+outdir=/path/to/output/directory
 
 # base=/path/to/cromwell-executions/atac
 # outdir=/path/to/output/directory
