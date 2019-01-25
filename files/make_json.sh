@@ -61,7 +61,7 @@ for i in $indiv; do
     echo "    \"atac.macs2_mem_mb\" : 16000," >> ${json_file}
     echo >> ${json_file}
 
-    # optional. we can set this to false if we're only interested in the less stringent "optimal" peak sets
+    # optional. we can set this to false if we're only interested in the less stringent "overlap" peak sets
     echo "    \"atac.enable_idr\" : true," >> ${json_file}
     echo >> ${json_file}
 
