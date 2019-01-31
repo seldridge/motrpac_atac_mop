@@ -1,5 +1,9 @@
 # MoTrPAC ATAC-Seq MOP (ENCODE pipeline)
 
+**NOTE:** (31 Jan 19) This README is currently outdated. It will be updated to reflect the most recent version of the MOP.
+
+
+
 This repository documents the specific parameters used to run the ENCODE ATAC pipeline for ATAC-seq data processing within the MoTrPAC consortium.  
 
 Note that the ENCODE ATAC-seq pipeline has separate instructions for multiple platforms, including Stanford SCG, Stanford Sherlock 2.0, local system with docker, local system with Conda, etc. The following documentation is specific for analysis on a **local system with Conda**. Platform-specific instructions can be found here: https://github.com/ENCODE-DCC/atac-seq-pipeline  
