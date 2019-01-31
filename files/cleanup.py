@@ -16,7 +16,7 @@ with open(infile, 'rb') as infile, open(outfile, 'wb') as out:
 		l = line.strip().split('\t')
 		
 		if line.startswith('\t'):
-			out.write(main_header+'\t'+subhead+'\t'+'\t'.join(l[1:len(l)])+'\n')
+			out.write(main_header+'\t'+subhead+'\t'+'\t'.join(l[0:len(l)])+'\n')
 			continue
 
 		if l[0] == 'FRiP':
