@@ -5,13 +5,58 @@
 
 set -e
 
-fastq_dir=/path/to/faw/fastq/files
-json_dir=/path/tp/output/directory
-mkdir -p ${json_dir}
+show_help() {
+cat << EOF
+Usage: $0 -f [FASTQ DIR] -g [GENOME TSV] -j [JSON DIR] [OPTION]...
+Generate a JSON configuration for the ENCODE ATAC pipeline
 
+Mandatory Options:
+    -f <dir>    fastq directory
+    -g <file>   genome file (likely a *.tsv)
+    -h          display this help text
+    -j <dir>    json directory
+
+Options:
+    -l <num>    number of lanes (default: 1)
+
+EOF
+}
+
+# fastq_dir=/path/to/faw/fastq/files
+# json_dir=/path/tp/output/directory
 # path to genome reference
-genome_ref=/path/to/reference/genome/built/in/step/3.2/rn6.tsv
-lanes_per_sample=4
+# genome_ref=/path/to/reference/genome/built/in/step/3.2/rn6.tsv
+# lanes_per_sample=4
+
+OPTIND=1
+while getopts "f:g:hj:l:" opt; do
+  case "$opt" in
+    h)
+      show_help
+      exit 0
+      ;;
+    g)
+      genome_ref=$OPTARG
+      ;;
+    f)
+      fastq_dir=$OPTARG
+      ;;
+    j)
+      json_dir=$OPTARG
+      ;;
+    l)
+      lanes_per_sample=$OPTARGS
+      ;;
+  esac
+done
+
+if [ -z $fastq_dir ] || [ -z $json_dir ] || [ -z $genome_ref ]; then
+  echo "Missing mandatory command line argument!"
+  show_help
+  exit 1
+fi
+
+mkdir -p ${json_dir}
 
 #suffix of input fastq files
 SUF_R1=_R1_001.fastq.gz
