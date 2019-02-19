@@ -65,7 +65,7 @@ SUF_R2=_R2_001.fastq.gz
 OUT1_SUF=merge_R1.fastq.gz
 OUT2_SUF=merge_R2.fastq.gz
 
-indiv=$(ls -1 ${fastq_dir}/*_001.fastq.gz | awk '{ match($0, /([\-A-z0-9]+)_L[0-9]+/, arr); print arr[1]}' | sort | uniq)
+indiv=$(ls -1 ${fastq_dir}/*_001.fastq.gz | perl -n -e '/([\-A-z0-9]+)_L[0-9]+/ && print "$1 "' | sort | uniq)
 
 for i in $indiv; do
 
@@ -74,7 +74,7 @@ for i in $indiv; do
         continue
     fi
 
-    # name JSON file from FASTQ sample name 
+    # name JSON file from FASTQ sample name
     json_file=${json_dir}/${i}.json
 
     echo "{" > ${json_file}
@@ -82,14 +82,14 @@ for i in $indiv; do
     echo "    \"atac.description\" : \"ATAC-seq on MoTrPAC\"," >> ${json_file}
     echo "    \"atac.pipeline_type\" : \"atac\"," >> ${json_file}
     echo "    \"atac.genome_tsv\" : \"${genome_ref}\"," >> ${json_file}
-    echo "    \"atac.keep_irregular_chr_in_bfilt_peak\" : true," >> ${json_file} # required when using Ensembl reference genome, which has non-standard chromosome names 
+    echo "    \"atac.keep_irregular_chr_in_bfilt_peak\" : true," >> ${json_file} # required when using Ensembl reference genome, which has non-standard chromosome names
     echo >> ${json_file}
 
     echo "    \"atac.paired_end\" : true," >> ${json_file}
     echo "    \"atac.multimapping\" : 0," >> ${json_file}
     echo >> ${json_file}
 
-    echo "    \"atac.auto_detect_adapter\" : true," >> ${json_file} 
+    echo "    \"atac.auto_detect_adapter\" : true," >> ${json_file}
     echo >> ${json_file}
 
     # allocate CPUs
@@ -123,7 +123,7 @@ for i in $indiv; do
     done
     echo "    ]," >> ${json_file}
     echo >> ${json_file}
-    
+
     echo "    \"atac.fastqs_rep1_R2\" : [" >> ${json_file}
     counter=1
     for k in $(ls ${fastq_dir}/${i}_*L00*${SUF_R2}); do
