@@ -10,26 +10,17 @@ cat << EOF
 Usage: $0 -f [FASTQ DIR] -g [GENOME TSV] -j [JSON DIR] [OPTION]...
 Generate a JSON configuration for the ENCODE ATAC pipeline
 
-Mandatory Options:
-    -f <dir>    fastq directory
-    -g <file>   genome file (likely a *.tsv)
-    -h          display this help text
-    -j <dir>    json directory
+Mandatory options:
+  -f <dir>                   fastq directory
+  -g <file>                  genome file (likely a *.tsv)
+  -j <dir>                   json directory
 
 Options:
-    -l <num>    number of lanes (default: 1)
-
+  -h                         display this help text
 EOF
 }
 
-# fastq_dir=/path/to/faw/fastq/files
-# json_dir=/path/tp/output/directory
-# path to genome reference
-# genome_ref=/path/to/reference/genome/built/in/step/3.2/rn6.tsv
-# lanes_per_sample=4
-
-OPTIND=1
-while getopts "f:g:hj:l:" opt; do
+while getopts "f:g:hj:" opt; do
   case "$opt" in
     h)
       show_help
@@ -44,9 +35,6 @@ while getopts "f:g:hj:l:" opt; do
     j)
       json_dir=$OPTARG
       ;;
-    l)
-      lanes_per_sample=$OPTARGS
-      ;;
   esac
 done
 
@@ -56,14 +44,30 @@ if [ -z $fastq_dir ] || [ -z $json_dir ] || [ -z $genome_ref ]; then
   exit 1
 fi
 
+cat <<EOF
+[info] Configuration:
+[info]   fast_dir: $fastq_dir
+[info]   json_dir: $json_dir
+[info]   genome_ref: $genome_ref
+EOF
+
 mkdir -p ${json_dir}
 
-#suffix of input fastq files
-SUF_R1=_R1_001.fastq.gz
-SUF_R2=_R2_001.fastq.gz
-#suffix of output files
-OUT1_SUF=merge_R1.fastq.gz
-OUT2_SUF=merge_R2.fastq.gz
+# Emit all fastq files in the $fastq_dir based on a suffix
+#   - param $1: the suffix to use, e.g., "_R1_001.fastq.gz"
+emit_fastq() {
+    suffix=$1
+
+    fastq_r1=($(ls ${fastq_dir}/${i}_*L00*$suffix))
+    for j in $(seq 1 ${#fastq_r1[@]}); do
+        echo -n "        \"${fastq_rq[$j]}\"" >> ${json_file}
+        if ! [ $j -eq ${#fastq_r1[@]} ]; then
+            echo "," >> $json_file
+        else
+            echo "" >> $json_file
+        fi
+    done
+}
 
 indiv=$(ls -1 ${fastq_dir}/*_001.fastq.gz | perl -n -e '/([\-A-z0-9]+)_L[0-9]+/ && print "$1 "' | sort | uniq)
 
@@ -111,29 +115,11 @@ for i in $indiv; do
     echo >> ${json_file}
 
     echo "    \"atac.fastqs_rep1_R1\" : [" >> ${json_file}
-    counter=1
-    for j in $(ls ${fastq_dir}/${i}_*L00*${SUF_R1})
-    do
-        if [ "$counter" = "$lanes_per_sample" ]; then
-            echo "        \"${j}\"" >> ${json_file}
-        else
-            echo "        \"${j}\"," >> ${json_file}
-        fi
-        counter=$((counter +1))
-    done
+    emit_fastq _R1_001.fastq.gz
     echo "    ]," >> ${json_file}
-    echo >> ${json_file}
 
     echo "    \"atac.fastqs_rep1_R2\" : [" >> ${json_file}
-    counter=1
-    for k in $(ls ${fastq_dir}/${i}_*L00*${SUF_R2}); do
-        if [ "$counter" = "$lanes_per_sample" ]; then
-            echo "        \"${k}\"" >> ${json_file}
-        else
-            echo "        \"${k}\"," >> ${json_file}
-        fi
-        counter=$((counter +1))
-    done
+    emit_fastq _R2_001.fastq.gz
     echo "    ]" >> ${json_file}
 
     echo "}" >> ${json_file}
