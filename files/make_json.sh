@@ -57,11 +57,11 @@ mkdir -p ${json_dir}
 #   - param $1: the suffix to use, e.g., "_R1_001.fastq.gz"
 emit_fastq() {
     suffix=$1
-
-    fastq_r1=($(ls ${fastq_dir}/${i}_*L00*$suffix))
-    for j in $(seq 1 ${#fastq_r1[@]}); do
-        echo -n "        \"${fastq_rq[$j]}\"" >> ${json_file}
-        if ! [ $j -eq ${#fastq_r1[@]} ]; then
+    fastq_rx=($(ls ${fastq_dir}/${i}_*L00*$suffix))
+    jj=$((${#fastq_rx[@]} -1))
+    for j in $(seq 0 $jj); do
+        echo -n "        \"${fastq_rx[$j]}\"" >> ${json_file}
+        if ! [ $j -eq $jj ]; then
             echo "," >> $json_file
         else
             echo "" >> $json_file
